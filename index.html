@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>カレンダー予定表示</title>
-</head>
-<body>
-    <h1>今日の開館予定</h1>
-    <div id="events">読み込み中...</div>
-
+    <title>カレンダー情報</title>
     <script>
-        function fetchCalendarEvents() {
-            google.script.run.withSuccessHandler(function(response) {
-                document.getElementById('events').textContent = response;
-            }).getCalendarEvents();
+        async function getCalendarData() {
+            const url = 'YOUR_DEPLOYED_SCRIPT_URL'; // ここにGoogle Apps ScriptのWebアプリURLを入れてください
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                document.getElementById('calendar-info').textContent = data.message;
+            } catch (error) {
+                console.error('カレンダーデータの取得中にエラーが発生しました:', error);
+            }
         }
 
-        window.onload = fetchCalendarEvents;
+        window.onload = getCalendarData;
     </script>
+</head>
+<body>
+    <h1>今日のカレンダー情報</h1>
+    <p id="calendar-info">カレンダーデータを読み込んでいます...</p>
 </body>
 </html>
