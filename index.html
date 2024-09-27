@@ -4,17 +4,19 @@
   <title>カレンダー情報</title>
   <script>
     // WebアプリURL (Google Apps ScriptからデプロイされたURLに置き換えます)
-    const webAppUrl = 'https://script.google.com/macros/s/AKfycbyFVWas6KOMM6UCiJiyyW9wTND_ySoux8kwW8QNy8-bVSzi_apVjB-RoatnABVuApfwCw/exec';
+    const webAppUrl = 'https://script.google.com/macros/s/your-web-app-url/exec';
 
     // カレンダー情報を取得する関数
     function loadCalendar() {
       fetch(webAppUrl)  // WebアプリURLにリクエストを送信
-        .then(response => response.text())
-        .then(result => {
-          document.getElementById('calendarInfo').innerHTML = result; // 取得したデータを表示
+        .then(response => response.json()) // レスポンスをJSON形式で取得
+        .then(data => {
+          // 取得したメッセージを表示
+          document.getElementById('calendarInfo').innerHTML = data.message; 
         })
         .catch(error => {
           console.error('エラーが発生しました:', error);
+          document.getElementById('calendarInfo').innerHTML = 'エラーが発生しました。';
         });
     }
 
@@ -26,6 +28,6 @@
 </head>
 <body>
   <h1>カレンダー情報</h1>
-  <div id="calendarInfo">読み込み中...</div> <!-- ここに結果が表示される -->
+  <div id="calendarInfo"> </div> <!-- ここに結果が表示される -->
 </body>
 </html>
