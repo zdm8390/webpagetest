@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>カレンダー情報</title>
-    <script>
-        async function getCalendarData() {
-            const url = 'https://script.google.com/macros/s/AKfycbyDYb3nMzMaRHCICmcmm8ju209qH6PB4IoXb88LDw5xazu4EpKwaf_AG-Nmh-kZ8DQIGQ/exec'; // ここにGoogle Apps ScriptのWebアプリURLを入れてください
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                document.getElementById('calendar-info').textContent = data.message;
-            } catch (error) {
-                console.error('カレンダーデータの取得中にエラーが発生しました:', error);
-            }
-        }
+  <title>カレンダー情報</title>
+  <script>
+    // WebアプリURL (Google Apps ScriptからデプロイされたURLに置き換えます)
+    const webAppUrl = 'https://script.google.com/macros/s/AKfycbyDYb3nMzMaRHCICmcmm8ju209qH6PB4IoXb88LDw5xazu4EpKwaf_AG-Nmh-kZ8DQIGQ/exec;
 
-        window.onload = getCalendarData;
-    </script>
+    // カレンダー情報を取得する関数
+    function loadCalendar() {
+      fetch(webAppUrl)  // WebアプリURLにリクエストを送信
+        .then(response => response.text())
+        .then(result => {
+          document.getElementById('calendarInfo').innerHTML = result; // 取得したデータを表示
+        })
+        .catch(error => {
+          console.error('エラーが発生しました:', error);
+        });
+    }
+
+    // ページが読み込まれたらカレンダー情報を取得
+    window.onload = function() {
+      loadCalendar();
+    };
+  </script>
 </head>
 <body>
-    <h1>今日のカレンダー情報</h1>
-    <p id="calendar-info">カレンダーデータを読み込んでいます...</p>
+  <h1>カレンダー情報</h1>
+  <div id="calendarInfo">読み込み中...</div> <!-- ここに結果が表示される -->
 </body>
 </html>
